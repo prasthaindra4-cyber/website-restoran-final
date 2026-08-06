@@ -364,7 +364,7 @@ export default function Home() {
             className="relative"
           >
             <motion.img
-              src="/images/story.jpg"
+                          src="https://images.unsplash.com/photo-1504674900952-b8986cbdf675?w=1200&q=80&auto=format&fit=crop"
               alt="Perjalanan Kedai Prasmar"
               className="rounded-3xl shadow-2xl w-full aspect-[4/3] object-cover"
               whileHover={{ scale: 1.05 }}

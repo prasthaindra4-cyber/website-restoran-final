@@ -58,21 +58,21 @@ export default function Navbar() {
       </div>
 
       {/* Main Navbar */}
-      <nav className="bg-white/85 backdrop-blur-md sticky top-0 z-50 border-b border-emerald-100/50 shadow-sm hover:shadow-md transition-shadow">
-        <motion.div className="absolute inset-0 bg-gradient-to-r from-emerald-50/0 via-emerald-50/5 to-emerald-50/0 pointer-events-none" animate={{ x: [-1000, 1000] }} transition={{ duration: 20, repeat: Infinity }} />
+      <nav className="bg-white/85 backdrop-blur-md sticky top-0 z-50 border-b border-emerald-100/50 shadow-sm hover:shadow-md transition-shadow overflow-hidden">
+        <motion.div className="absolute inset-0 bg-gradient-to-r from-emerald-50/0 via-emerald-50/5 to-emerald-50/0 pointer-events-none" animate={{ opacity: [0.85, 1, 0.85] }} transition={{ duration: 10, repeat: Infinity }} />
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-          <div className="flex items-center h-20">
+          <div className="flex items-center h-16 md:h-20">
             {/* Logo */}
-            <Link to="/" className="flex items-center space-x-2 mr-14 group">
+            <Link to="/" className="flex items-center space-x-2 mr-6 md:mr-14 group">
               <motion.div 
-                className="w-10 h-10 bg-gradient-to-br from-emerald-600 to-emerald-700 rounded-full flex items-center justify-center shadow-lg group-hover:shadow-emerald-600/50"
+                className="w-9 h-9 md:w-10 md:h-10 bg-gradient-to-br from-emerald-600 to-emerald-700 rounded-full flex items-center justify-center shadow-lg group-hover:shadow-emerald-600/50"
                 whileHover={{ scale: 1.1, rotate: 360 }}
                 transition={{ duration: 0.6 }}
               >
                 <span className="text-white font-serif font-bold text-xl">KP</span>
               </motion.div>
               <motion.span 
-                className="font-serif font-bold text-2xl text-emerald-900 tracking-tight group-hover:text-emerald-600 transition-colors"
+                className="hidden sm:inline-block font-serif font-bold md:text-2xl text-emerald-900 tracking-tight group-hover:text-emerald-600 transition-colors"
                 animate={{ letterSpacing: [0, 2, 0] }}
                 transition={{ duration: 3, repeat: Infinity }}
               >
@@ -106,7 +106,7 @@ export default function Navbar() {
             </div>
 
             {/* Icons */}
-            <div className="ml-auto flex items-center gap-5">
+            <div className="ml-auto flex items-center gap-3 md:gap-5">
               {/* Search */}
               <div className="relative" ref={searchRef}>
                 <motion.button 
@@ -309,7 +309,7 @@ export default function Navbar() {
                 initial={{ y: -20, opacity: 0 }}
                 animate={{ y: 0, opacity: 1 }}
                 exit={{ y: -20, opacity: 0 }}
-                className="md:hidden bg-white border-t border-stone-100 overflow-hidden z-50 fixed left-0 right-0 top-[64px]"
+                className="md:hidden bg-white border-t border-stone-100 overflow-hidden z-50 fixed left-0 right-0 top-16"
               >
                 <div className="px-4 py-5 space-y-3">
                   {navLinks.map((link) => (
@@ -317,7 +317,7 @@ export default function Navbar() {
                       key={link.name}
                       to={link.path}
                       onClick={() => setIsOpen(false)}
-                      className="block px-4 py-4 rounded-xl text-base font-medium text-stone-700 hover:bg-emerald-50 hover:text-emerald-700 transition-colors"
+                      className="block px-3 py-3 rounded-xl text-base font-medium text-stone-700 hover:bg-emerald-50 hover:text-emerald-700 transition-colors"
                     >
                       {link.name}
                     </Link>
