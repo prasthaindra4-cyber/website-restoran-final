@@ -364,12 +364,13 @@ export default function Home() {
             className="relative"
           >
             <motion.img
-                          src="https://images.unsplash.com/photo-1504674900952-b8986cbdf675?w=1200&q=80&auto=format&fit=crop"
+                          src="/images/story.svg"
               alt="Perjalanan Kedai Prasmar"
-              className="rounded-3xl shadow-2xl w-full aspect-[4/3] object-cover"
-              whileHover={{ scale: 1.05 }}
-              transition={{ duration: 0.3 }}
-            />
+                          onError={(e) => { (e.currentTarget as HTMLImageElement).src = 'https://images.unsplash.com/photo-1504674900952-b8986cbdf675?w=1200&q=80&auto=format&fit=crop'; }}
+                          className="rounded-3xl shadow-2xl w-full aspect-[4/3] object-cover"
+                          whileHover={{ scale: 1.05 }}
+                          transition={{ duration: 0.3 }}
+                        />
             
             {/* Stats Overlay */}
             <div className="grid grid-cols-2 gap-4 mt-8">

@@ -279,9 +279,11 @@ export default function Navbar() {
               </motion.button>
 
               {/* Mobile Menu Toggle */}
-              <motion.button 
-                className="md:hidden text-stone-600 p-2 hover:bg-emerald-50 rounded-full" 
+              <motion.button
+                className="md:hidden text-stone-600 p-2 hover:bg-emerald-50 rounded-full"
                 onClick={() => setIsOpen(!isOpen)}
+                aria-expanded={isOpen}
+                aria-label="Toggle menu"
                 whileHover={{ scale: 1.1 }}
                 whileTap={{ scale: 0.95 }}
               >
@@ -309,7 +311,7 @@ export default function Navbar() {
                 initial={{ y: -20, opacity: 0 }}
                 animate={{ y: 0, opacity: 1 }}
                 exit={{ y: -20, opacity: 0 }}
-                className="md:hidden bg-white border-t border-stone-100 overflow-hidden z-50 fixed left-0 right-0 top-16"
+                className="md:hidden bg-white border-t border-stone-100 overflow-auto z-50 fixed inset-x-0 top-0 pt-16 h-[calc(100vh-4rem)]"
               >
                 <div className="px-4 py-5 space-y-3">
                   {navLinks.map((link) => (
