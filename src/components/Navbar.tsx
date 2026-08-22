@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { Search, Bell, Heart, User, ShoppingBag, Menu as MenuIcon, X, Clock, MapPin, Phone } from 'lucide-react';
+import { Search, Bell, Heart, User, ShoppingBag, Menu as MenuIcon, X, Clock, MapPin, Phone, MessageSquare } from 'lucide-react';
 import { useAppContext } from '../context/AppContext';
 import { motion, AnimatePresence } from 'framer-motion';
 import AuthModal from './AuthModal';
@@ -278,6 +278,19 @@ export default function Navbar() {
                 <span>{isLoggedIn ? 'Keluar' : 'Masuk Akun'}</span>
               </motion.button>
 
+              {/* Chat Widget Toggle (mobile) */}
+              <motion.button
+                className="md:hidden text-stone-600 p-2 hover:bg-emerald-50 rounded-full"
+                onClick={() => {
+                  try { window.dispatchEvent(new Event('open-chat-drawer')); } catch {}
+                }}
+                title="Asisten AI"
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+              >
+                <MessageSquare size={20} />
+              </motion.button>
+
               {/* Mobile Menu Toggle */}
               <motion.button
                 className="md:hidden text-stone-600 p-2 hover:bg-emerald-50 rounded-full"
@@ -311,7 +324,7 @@ export default function Navbar() {
                 initial={{ y: -20, opacity: 0 }}
                 animate={{ y: 0, opacity: 1 }}
                 exit={{ y: -20, opacity: 0 }}
-                className="md:hidden bg-white border-t border-stone-100 overflow-auto z-50 fixed inset-x-0 top-0 pt-16 h-[calc(100vh-4rem)]"
+                className="md:hidden bg-white border-t border-stone-100 overflow-auto z-50 fixed inset-x-0 top-0 pt-16 h-[calc(100vh-4rem)] w-full max-w-full overflow-x-hidden px-4"
               >
                 <div className="px-4 py-5 space-y-3">
                   {navLinks.map((link) => (
@@ -324,6 +337,17 @@ export default function Navbar() {
                       {link.name}
                     </Link>
                   ))}
+
+                  {/* Quick Chat button for mobile panel */}
+                  <button
+                    onClick={() => {
+                      try { window.dispatchEvent(new Event('open-chat-drawer')); } catch {}
+                      setIsOpen(false);
+                    }}
+                    className="w-full text-left px-4 py-4 rounded-xl text-base font-medium text-stone-700 hover:bg-emerald-50 hover:text-emerald-700 transition-colors flex items-center"
+                  >
+                    <MessageSquare size={18} className="mr-3" /> Asisten AI
+                  </button>
                   <button 
                     onClick={() => {
                       if (isLoggedIn) {

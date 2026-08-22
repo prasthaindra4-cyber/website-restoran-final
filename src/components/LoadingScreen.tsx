@@ -1,32 +1,7 @@
-import { useEffect } from 'react';
 import { motion } from 'framer-motion';
 
 export default function LoadingScreen() {
 
-  useEffect(() => {
-    const welcomeText =
-      "Selamat datang di Kedai Prasmar. Kami sedang menyiapkan pengalaman terbaik untuk Anda.";
-
-    const speech = new SpeechSynthesisUtterance(welcomeText);
-
-    const voices = window.speechSynthesis.getVoices();
-    const idVoice = voices.find((voice) => voice.lang.toLowerCase().startsWith('id'));
-    if (idVoice) {
-      speech.voice = idVoice;
-    }
-
-    speech.lang = 'id-ID';
-    speech.rate = 0.95;
-    speech.pitch = 1.05;
-    speech.volume = 1;
-
-    window.speechSynthesis.cancel();
-    window.speechSynthesis.speak(speech);
-
-    return () => {
-      window.speechSynthesis.cancel();
-    };
-  }, []);
 
   return (
     <motion.div 

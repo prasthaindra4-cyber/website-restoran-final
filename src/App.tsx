@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect, lazy, Suspense } from 'react';
 import { HashRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
 import { AppProvider } from './context/AppContext';
 import Navbar from './components/Navbar';
@@ -10,7 +10,7 @@ import { AnimatePresence } from 'framer-motion';
 import Home from './pages/Home';
 import Menu from './pages/Menu';
 import LocationPage from './pages/Location';
-import ChatAI from './pages/ChatAI';
+const ChatAI = lazy(() => import('./pages/ChatAI'));
 import Dashboard from './pages/Dashboard';
 import Cart from './pages/Cart';
 import Checkout from './pages/Checkout';
@@ -26,6 +26,7 @@ function ScrollToTop() {
 
 function AppContent() {
   const [isLoading, setIsLoading] = useState(true);
+  const location = useLocation();
 
   useEffect(() => {
     // Simulate initial loading for elegant effect
@@ -46,17 +47,20 @@ function AppContent() {
         <div className="flex flex-col min-h-screen">
           <Navbar />
           <main className="flex-grow">
-            <Routes>
-              <Route path="/" element={<Home />} />
-              <Route path="/menu" element={<Menu />} />
-              <Route path="/location" element={<LocationPage />} />
-              <Route path="/chat-ai" element={<ChatAI />} />
-              <Route path="/dashboard" element={<Dashboard />} />
-              <Route path="/cart" element={<Cart />} />
-              <Route path="/checkout" element={<Checkout />} />
-              <Route path="/favorites" element={<Favorites />} />
-            </Routes>
+            <Suspense fallback={<div className="py-24 text-center">Memuat Asisten AI...</div>}>
+              <Routes>
+                <Route path="/" element={<Home />} />
+                <Route path="/menu" element={<Menu />} />
+                <Route path="/location" element={<LocationPage />} />
+                <Route path="/chat-ai" element={<ChatAI />} />
+                <Route path="/dashboard" element={<Dashboard />} />
+                <Route path="/cart" element={<Cart />} />
+                <Route path="/checkout" element={<Checkout />} />
+                <Route path="/favorites" element={<Favorites />} />
+              </Routes>
+            </Suspense>
           </main>
+
           <Footer />
         </div>
       )}

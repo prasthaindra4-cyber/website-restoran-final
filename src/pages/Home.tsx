@@ -1,45 +1,103 @@
 import { motion } from 'framer-motion';
+import { useEffect } from 'react';
 import { Leaf, Award, Flame, Sparkles, ChevronRight, ArrowRight, Star } from 'lucide-react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
+
+function HomeVoicePlayer() {
+  // Home-only TTS player: picks a natural-sounding Indonesian voice if available
+  useEffect(() => {
+    if (!('speechSynthesis' in window)) return;
+
+    const text = 'Selamat datang di Kedai Prasmar. Selamat menikmati pengalaman kuliner kami.';
+
+    const voices = window.speechSynthesis.getVoices();
+    const findNatural = (list: SpeechSynthesisVoice[] | undefined) => {
+      if (!list || list.length === 0) return null;
+      // prefer Indonesian voices first, then named natural voices
+      const id = list.find((v) => v.lang && v.lang.toLowerCase().startsWith('id'));
+      if (id) return id;
+      const natural = list.find((v) => /google|microsoft|wave|natural|neural|premium/i.test(v.name));
+      return natural || list[0];
+    };
+
+    const selected = findNatural(voices);
+    const utter = new SpeechSynthesisUtterance(text);
+    utter.lang = 'id-ID';
+    if (selected) utter.voice = selected;
+
+    // settings tuned for more natural tone
+    utter.rate = 1.0;
+    utter.pitch = 1.0;
+    utter.volume = 1.0;
+
+    // speak once when Home mounts
+    try {
+      window.speechSynthesis.cancel();
+      window.speechSynthesis.speak(utter);
+    } catch (e) {
+      console.warn('Home TTS failed', e);
+    }
+
+    // cleanup
+    return () => {
+      try { window.speechSynthesis.cancel(); } catch {}
+    };
+  }, []);
+
+  return null;
+}
 
 export default function Home() {
+  const { search } = useLocation();
+  const params = new URLSearchParams(search);
+  const presentation = params.get('presentation') === '1';
+
   return (
-    <div className="min-h-screen bg-stone-50 overflow-hidden">
+    <div className={`min-h-screen ${presentation ? 'bg-white text-stone-800' : 'bg-stone-50'} overflow-hidden`}>
       {/* ===== HERO SECTION ===== */}
       <section className="relative min-h-screen flex items-center justify-center overflow-hidden pt-20 md:pt-0">
         {/* Background with decorative elements */}
-        <div className="absolute inset-0 z-0">
-          <motion.div 
-            className="absolute inset-0 bg-[url('/images/hero.jpg')] bg-cover bg-center"
-            animate={{ scale: [1, 1.05, 1] }}
-            transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
-          />
-          <div className="absolute inset-0 bg-gradient-to-b from-stone-900/80 via-stone-900/70 to-stone-900/60" />
-          
-          {/* Animated light rays */}
-          <div className="absolute inset-0">
-            {[...Array(3)].map((_, i) => (
-              <motion.div
-                key={i}
-                className="absolute inset-0 bg-gradient-to-r from-transparent via-white/5 to-transparent"
-                animate={{ x: ['-100%', '100%'] }}
-                transition={{ duration: 4 + i, repeat: Infinity, delay: i * 1.5 }}
-              />
-            ))}
+        {!presentation && (
+          <div className="absolute inset-0 z-0">
+            <motion.div 
+              className="absolute inset-0 bg-[url('/images/hero.jpg')] bg-cover bg-center"
+              animate={{ scale: [1, 1.05, 1] }}
+              transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
+            />
+            <div className="absolute inset-0 bg-gradient-to-b from-stone-900/80 via-stone-900/70 to-stone-900/60" />
+            
+            {/* Animated light rays */}
+            <div className="absolute inset-0">
+              {[...Array(3)].map((_, i) => (
+                <motion.div
+                  key={i}
+                  className="absolute inset-0 bg-gradient-to-r from-transparent via-white/5 to-transparent"
+                  animate={{ x: ['-100%', '100%'] }}
+                  transition={{ duration: 4 + i, repeat: Infinity, delay: i * 1.5 }}
+                />
+              ))}
+            </div>
           </div>
-        </div>
+        )}
+        {presentation && (
+          <div className="absolute inset-0 z-0 bg-gradient-to-b from-white to-stone-100" />
+        )}
 
         {/* Decorative blur circles */}
-        <motion.div 
-          className="absolute top-20 left-10 w-72 h-72 bg-emerald-500/15 rounded-full blur-3xl"
-          animate={{ y: [0, 40, 0], scale: [1, 1.1, 1] }}
-          transition={{ duration: 8, repeat: Infinity }}
-        />
-        <motion.div 
-          className="absolute bottom-20 right-10 w-80 h-80 bg-amber-500/15 rounded-full blur-3xl"
-          animate={{ y: [0, -40, 0], scale: [1.1, 1, 1.1] }}
-          transition={{ duration: 8, repeat: Infinity }}
-        />
+        {!presentation && (
+          <>
+            <motion.div 
+              className="absolute top-20 left-10 w-72 h-72 bg-emerald-500/15 rounded-full blur-3xl"
+              animate={{ y: [0, 40, 0], scale: [1, 1.1, 1] }}
+              transition={{ duration: 8, repeat: Infinity }}
+            />
+            <motion.div 
+              className="absolute bottom-20 right-10 w-80 h-80 bg-amber-500/15 rounded-full blur-3xl"
+              animate={{ y: [0, -40, 0], scale: [1.1, 1, 1.1] }}
+              transition={{ duration: 8, repeat: Infinity }}
+            />
+          </>
+        )}
 
         {/* Main Hero Content */}
         <div className="relative z-10 text-center px-4 max-w-5xl mx-auto">
@@ -48,6 +106,7 @@ export default function Home() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.1 }}
           >
+            {/* Play opening voice only on Home mount (not during loading) */}
             {/* Badge */}
             <motion.span 
               className="inline-flex items-center px-4 py-2.5 rounded-full bg-gradient-to-r from-emerald-500/30 to-amber-500/30 text-emerald-100 border border-emerald-400/50 backdrop-blur-md text-sm font-semibold mb-8 shadow-lg"
@@ -93,16 +152,16 @@ export default function Home() {
             
             {/* CTAs */}
             <motion.div 
-              className="flex flex-col sm:flex-row items-center justify-center gap-6"
+              className={`flex flex-col sm:flex-row items-center justify-center gap-6 ${presentation ? 'gap-8' : ''}`}
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.5, duration: 0.8 }}
             >
               <Link to="/menu" className="group relative">
                 <motion.button 
-                  whileHover={{ scale: 1.05, y: -3 }}
+                      whileHover={{ scale: presentation ? 1.02 : 1.05, y: presentation ? 0 : -3 }}
                   whileTap={{ scale: 0.95 }}
-                  className="relative px-10 py-4 text-lg font-semibold text-white bg-gradient-to-r from-emerald-600 to-emerald-500 rounded-full hover:shadow-2xl hover:shadow-emerald-500/50 transition-all duration-300 flex items-center gap-2"
+                      className={`relative px-10 py-4 text-lg font-semibold ${presentation ? 'text-white bg-emerald-700' : 'text-white bg-gradient-to-r from-emerald-600 to-emerald-500'} rounded-full hover:shadow-2xl hover:shadow-emerald-500/50 transition-all duration-300 flex items-center gap-2`}
                 >
                   Eksplorasi Menu Kami
                   <ChevronRight size={20} className="group-hover:translate-x-1 transition-transform" />
@@ -121,6 +180,11 @@ export default function Home() {
             </motion.div>
           </motion.div>
         </div>
+
+        {/* Play human-like welcome on Home only */}
+        {typeof window !== 'undefined' && (
+         <HomeVoicePlayer />
+        )}
 
         {/* Scroll indicator */}
         <motion.div 
@@ -364,7 +428,7 @@ export default function Home() {
             className="relative"
           >
             <motion.img
-                          src="/images/story.svg"
+                          src="/images/story.jpg"
               alt="Perjalanan Kedai Prasmar"
                           onError={(e) => { (e.currentTarget as HTMLImageElement).src = 'https://images.unsplash.com/photo-1504674900952-b8986cbdf675?w=1200&q=80&auto=format&fit=crop'; }}
                           className="rounded-3xl shadow-2xl w-full aspect-[4/3] object-cover"

@@ -163,13 +163,16 @@ export default function Menu() {
                 >
                   {/* Image */}
                   <div className="relative aspect-[4/3] overflow-hidden bg-gradient-to-br from-emerald-50 to-amber-50">
-                    <img
-                      src={item.image}
-                      alt={item.name}
-                      onError={(e) => { (e.currentTarget as HTMLImageElement).src = '/images/placeholder-food.jpg'; }}
-                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                      loading="lazy"
-                    />
+                    <picture>
+                      <source srcSet={item.image.replace(/\.jpg$/i, '.webp')} type="image/webp" />
+                      <img
+                        src={item.image}
+                        alt={item.name}
+                        onError={(e) => { (e.currentTarget as HTMLImageElement).src = '/images/placeholder-food.jpg'; }}
+                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                        loading="lazy"
+                      />
+                    </picture>
                     <div className="absolute inset-0 bg-gradient-to-t from-black/6 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
 
                     {/* Badge & Heart */}
