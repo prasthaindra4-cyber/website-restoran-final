@@ -13,9 +13,9 @@ export default function LoadingScreen() {
         <motion.div
           animate={{ scale: [1, 1.2, 1], rotate: [0, 10, -10, 0] }}
           transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
-          className="w-24 h-24 bg-white rounded-full flex items-center justify-center shadow-2xl shadow-emerald-900/50"
+          className="w-24 h-24 bg-gradient-to-br from-emerald-500 to-emerald-700 rounded-full flex items-center justify-center shadow-2xl shadow-emerald-900/50 border border-emerald-300/30"
         >
-          <span className="text-emerald-800 font-serif font-bold text-4xl">
+          <span className="text-white font-serif font-bold text-4xl">
             KP
           </span>
         </motion.div>
