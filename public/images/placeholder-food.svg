@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600">
+  <defs>
+    <linearGradient id="g" x1="0" x2="1" y1="0" y2="1">
+      <stop offset="0%" stop-color="#ecfdf5"/>
+      <stop offset="100%" stop-color="#fef3c7"/>
+    </linearGradient>
+  </defs>
+  <rect width="800" height="600" fill="url(#g)"/>
+  <circle cx="215" cy="145" r="95" fill="#d1fae5" opacity="0.9"/>
+  <circle cx="585" cy="205" r="120" fill="#fef3c7" opacity="0.9"/>
+  <rect x="150" y="220" width="500" height="180" rx="28" fill="#ffffff" opacity="0.5"/>
+  <path d="M275 360 C320 290, 365 290, 405 360 C445 430, 505 430, 545 360" fill="none" stroke="#10b981" stroke-width="22" stroke-linecap="round"/>
+  <path d="M220 390 L575 390" stroke="#14532d" stroke-width="12" stroke-linecap="round" opacity="0.25"/>
+  <text x="400" y="500" text-anchor="middle" font-size="42" fill="#14532d" font-family="Arial, sans-serif" font-weight="700">Kedai Prasmar</text>
+</svg>

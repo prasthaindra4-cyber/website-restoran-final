@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { Search, Bell, Heart, User, ShoppingBag, Menu as MenuIcon, X, Clock, MapPin, Phone, MessageSquare } from 'lucide-react';
+import { Search, Bell, Heart, User, ShoppingBag, Menu as MenuIcon, X, Clock, MapPin, Phone, MessageSquare, Home } from 'lucide-react';
 import { useAppContext } from '../context/AppContext';
 import { motion, AnimatePresence } from 'framer-motion';
 import AuthModal from './AuthModal';
@@ -18,11 +18,11 @@ export default function Navbar() {
   const searchRef = useRef<HTMLDivElement>(null);
 
   const navLinks = [
-    { name: 'Beranda', path: '/' },
-    { name: 'Menu', path: '/menu' },
-    { name: 'Lokasi', path: '/location' },
-    { name: 'Asisten AI', path: '/chat-ai' },
-    { name: 'Dashboard', path: '/dashboard' },
+    { name: 'Beranda', path: '/', icon: <Home size={16} /> },
+    { name: 'Menu', path: '/menu', icon: <ShoppingBag size={16} /> },
+    { name: 'Lokasi', path: '/location', icon: <MapPin size={16} /> },
+    { name: 'Asisten AI', path: '/chat-ai', icon: <MessageSquare size={16} /> },
+    { name: 'Dashboard', path: '/dashboard', icon: <Clock size={16} /> },
   ];
 
   const handleSearch = (e: React.FormEvent) => {
@@ -58,8 +58,8 @@ export default function Navbar() {
       </div>
 
       {/* Main Navbar */}
-      <nav className="bg-white/85 backdrop-blur-md sticky top-0 z-50 border-b border-emerald-100/50 shadow-sm hover:shadow-md transition-shadow overflow-hidden">
-        <motion.div className="absolute inset-0 bg-gradient-to-r from-emerald-50/0 via-emerald-50/5 to-emerald-50/0 pointer-events-none" animate={{ opacity: [0.85, 1, 0.85] }} transition={{ duration: 10, repeat: Infinity }} />
+      <nav className="bg-[#111827]/95 backdrop-blur-md sticky top-0 z-50 border-b border-white/10 shadow-sm hover:shadow-md transition-shadow overflow-hidden">
+        <motion.div className="absolute inset-0 bg-gradient-to-r from-transparent via-emerald-500/5 to-transparent pointer-events-none" animate={{ opacity: [0.85, 1, 0.85] }} transition={{ duration: 10, repeat: Infinity }} />
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <div className="flex items-center h-16 md:h-20">
             {/* Logo */}
@@ -72,7 +72,7 @@ export default function Navbar() {
                 <span className="text-white font-serif font-bold text-xl">KP</span>
               </motion.div>
               <motion.span 
-                className="hidden sm:inline-block font-serif font-bold md:text-2xl text-emerald-900 tracking-tight group-hover:text-emerald-600 transition-colors"
+                className="hidden sm:inline-block font-serif font-bold md:text-2xl text-white tracking-tight group-hover:text-emerald-300 transition-colors"
                 animate={{ letterSpacing: [0, 2, 0] }}
                 transition={{ duration: 3, repeat: Infinity }}
               >
@@ -89,13 +89,13 @@ export default function Navbar() {
                     key={link.name}
                     to={link.path}
                     className={`relative px-4 py-2 text-sm font-medium transition-colors rounded-full ${
-                      isActive ? 'text-emerald-900' : 'text-stone-600 hover:text-emerald-600'
+                      isActive ? 'text-emerald-200' : 'text-white/70 hover:text-emerald-300'
                     }`}
                   >
                     {isActive && (
                       <motion.div
                         layoutId="navBubble"
-                        className="absolute inset-0 bg-emerald-100/80 rounded-full -z-10 shadow-sm"
+                        className="absolute inset-0 bg-emerald-500/20 rounded-full -z-10 shadow-sm"
                         transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
                       />
                     )}
@@ -111,7 +111,7 @@ export default function Navbar() {
               <div className="relative" ref={searchRef}>
                 <motion.button 
                   onClick={() => setIsSearchOpen(!isSearchOpen)} 
-                  className="text-stone-600 hover:text-emerald-600 transition-colors relative p-2 hover:bg-emerald-50 rounded-full"
+                  className="text-white/75 hover:text-emerald-300 transition-colors relative p-2 hover:bg-white/10 rounded-full"
                   whileHover={{ scale: 1.1 }}
                   whileTap={{ scale: 0.95 }}
                 >
@@ -270,7 +270,7 @@ export default function Navbar() {
               {/* User / Login */}
               <motion.button 
                 onClick={() => isLoggedIn ? logout() : setIsAuthModalOpen(true)}
-                className="hidden sm:flex items-center space-x-2 bg-gradient-to-r from-emerald-50 to-amber-50 hover:from-emerald-100 hover:to-amber-100 text-stone-700 hover:text-emerald-700 px-3 py-1.5 rounded-full transition-colors text-sm font-medium border border-emerald-200/50"
+                className="hidden sm:flex items-center space-x-2 bg-emerald-500/15 hover:bg-emerald-500/25 text-emerald-100 hover:text-white px-4 py-2 rounded-full transition-colors text-sm font-medium border border-emerald-400/40 shadow-sm"
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
               >
@@ -324,16 +324,39 @@ export default function Navbar() {
                 initial={{ y: -20, opacity: 0 }}
                 animate={{ y: 0, opacity: 1 }}
                 exit={{ y: -20, opacity: 0 }}
-                className="md:hidden bg-white border-t border-stone-100 overflow-auto z-50 fixed inset-x-0 top-0 pt-16 h-[calc(100vh-4rem)] w-full max-w-full overflow-x-hidden px-4"
+                className="md:hidden bg-[#111827] border-t border-white/10 overflow-y-auto z-50 fixed inset-x-0 top-0 pt-16 h-[calc(100dvh-4rem)] min-h-[360px] w-full max-w-full overflow-x-hidden px-4 shadow-2xl"
               >
-                <div className="px-4 py-5 space-y-3">
+                <div className="mx-auto w-full max-w-md px-1 py-5">
+                  <div className="mb-4 flex items-center justify-between border-b border-white/10 px-2 pb-4">
+                    <div>
+                      <p className="text-xs font-semibold uppercase tracking-[0.18em] text-emerald-300">Navigasi</p>
+                      <p className="text-lg font-semibold text-white">Kedai Prasmar</p>
+                    </div>
+                    <button
+                      type="button"
+                      onClick={() => setIsOpen(false)}
+                      className="rounded-full border border-white/10 p-2 text-white/80 hover:bg-white/10"
+                      aria-label="Tutup menu navigasi"
+                    >
+                      <X size={20} />
+                    </button>
+                  </div>
+
+                  <div className="space-y-2">
                   {navLinks.map((link) => (
                     <Link
                       key={link.name}
                       to={link.path}
                       onClick={() => setIsOpen(false)}
-                      className="block px-3 py-3 rounded-xl text-base font-medium text-stone-700 hover:bg-emerald-50 hover:text-emerald-700 transition-colors"
+                      className={`flex min-h-12 items-center gap-3 rounded-xl px-4 py-3 text-base font-medium transition-colors ${
+                        location.pathname === link.path
+                          ? 'bg-emerald-500/20 text-emerald-200'
+                          : 'text-white/80 hover:bg-white/10 hover:text-emerald-200'
+                      }`}
                     >
+                      <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-white/10 text-white/70">
+                        {link.icon}
+                      </span>
                       {link.name}
                     </Link>
                   ))}
@@ -344,9 +367,12 @@ export default function Navbar() {
                       try { window.dispatchEvent(new Event('open-chat-drawer')); } catch {}
                       setIsOpen(false);
                     }}
-                    className="w-full text-left px-4 py-4 rounded-xl text-base font-medium text-stone-700 hover:bg-emerald-50 hover:text-emerald-700 transition-colors flex items-center"
+                    className="flex min-h-12 w-full items-center gap-3 rounded-xl px-4 py-3 text-left text-base font-medium text-white/80 transition-colors hover:bg-white/10 hover:text-emerald-200"
                   >
-                    <MessageSquare size={18} className="mr-3" /> Asisten AI
+                    <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-emerald-500/20 text-emerald-200">
+                      <MessageSquare size={18} />
+                    </span>
+                    Asisten AI
                   </button>
                   <button 
                     onClick={() => {
@@ -357,11 +383,14 @@ export default function Navbar() {
                       }
                       setIsOpen(false);
                     }}
-                    className="w-full text-left px-4 py-4 rounded-xl text-base font-medium text-stone-700 hover:bg-emerald-50 hover:text-emerald-700 transition-colors flex items-center"
+                    className="flex min-h-12 w-full items-center gap-3 rounded-xl px-4 py-3 text-left text-base font-medium text-white/80 transition-colors hover:bg-white/10 hover:text-emerald-200"
                   >
-                    <User size={18} className="mr-3" />
+                    <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-white/10 text-white/70">
+                      <User size={18} />
+                    </span>
                     {isLoggedIn ? 'Keluar Akun' : 'Masuk Akun'}
                   </button>
+                  </div>
                 </div>
               </motion.div>
             </>

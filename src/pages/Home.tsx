@@ -227,7 +227,7 @@ export default function Home() {
           <span className="inline-block px-4 py-1.5 rounded-full bg-emerald-100 text-emerald-700 text-sm font-semibold mb-4">
             Mengapa Kami
           </span>
-          <h2 className="text-4xl md:text-5xl font-serif font-bold text-stone-800 mb-4">
+          <h2 className="text-4xl md:text-5xl font-serif font-bold text-white mb-4">
             Mengapa Memilih Kedai Prasmar?
           </h2>
           <div className="w-24 h-1.5 bg-gradient-to-r from-emerald-400 to-amber-400 mx-auto rounded-full" />
@@ -268,7 +268,7 @@ export default function Home() {
               className="group"
             >
               <motion.div 
-                className="bg-white/90 backdrop-blur-sm p-8 rounded-3xl border border-stone-200/50 text-center h-full shadow-lg hover:shadow-3xl transition-all duration-500 hover:border-emerald-300/50 relative overflow-hidden"
+                className="bg-[#1f2937] p-8 rounded-3xl border border-white/10 text-center h-full shadow-lg hover:shadow-3xl transition-all duration-500 hover:border-emerald-300/50 relative overflow-hidden"
               >
                 {/* Icon Container */}
                 <motion.div 
@@ -283,8 +283,8 @@ export default function Home() {
                   {feature.icon}
                 </motion.div>
 
-                <h3 className="text-xl font-bold text-stone-800 mb-3">{feature.title}</h3>
-                <p className="text-stone-600 leading-relaxed">{feature.desc}</p>
+                <h3 className="text-xl font-bold text-white mb-3">{feature.title}</h3>
+                <p className="text-slate-300 leading-relaxed">{feature.desc}</p>
               </motion.div>
             </motion.div>
           ))}
@@ -309,10 +309,10 @@ export default function Home() {
           <span className="inline-block px-4 py-1.5 rounded-full bg-emerald-100 text-emerald-700 text-sm font-semibold mb-4">
             Testimoni Pelanggan
           </span>
-          <h2 className="text-4xl md:text-5xl font-serif font-bold text-stone-800 mb-4">
+          <h2 className="text-4xl md:text-5xl font-serif font-bold text-white mb-4">
             Apa Kata Pelanggan Kami?
           </h2>
-          <p className="text-lg text-stone-600">
+          <p className="text-lg text-slate-300">
             Pengalaman kuliner berkesan dari ribuan pelanggan yang mempercayai Kedai Prasmar
           </p>
         </motion.div>
@@ -352,7 +352,7 @@ export default function Home() {
               className="group"
             >
               <motion.div 
-                className="bg-white/90 backdrop-blur-sm rounded-3xl p-8 h-full border border-stone-200/50 shadow-lg hover:shadow-3xl transition-all duration-300 hover:border-emerald-300/50 flex flex-col relative overflow-hidden"
+                className="bg-[#1f2937] rounded-3xl p-8 h-full border border-white/10 shadow-lg hover:shadow-3xl transition-all duration-300 hover:border-emerald-300/50 flex flex-col relative overflow-hidden"
               >
                 {/* Rating stars */}
                 <div className="flex items-center gap-1 mb-4">
@@ -362,7 +362,7 @@ export default function Home() {
                 </div>
 
                 {/* Testimonial text */}
-                <p className="text-stone-700 leading-relaxed mb-6 flex-grow italic">
+                <p className="text-slate-200 leading-relaxed mb-6 flex-grow italic">
                   "{testimonial.testimonial}"
                 </p>
 
@@ -374,8 +374,8 @@ export default function Home() {
                     className="w-12 h-12 rounded-full border-2 border-emerald-200"
                   />
                   <div>
-                    <p className="font-bold text-stone-800">{testimonial.name}</p>
-                    <p className="text-sm text-stone-500">{testimonial.role}</p>
+                    <p className="font-bold text-white">{testimonial.name}</p>
+                    <p className="text-sm text-slate-400">{testimonial.role}</p>
                   </div>
                 </div>
               </motion.div>
@@ -397,7 +397,7 @@ export default function Home() {
           <span className="inline-block px-4 py-1.5 rounded-full bg-emerald-100 text-emerald-700 text-sm font-semibold mb-4">
             Cerita Kami
           </span>
-          <h2 className="text-3xl md:text-4xl font-serif font-bold text-stone-800 mb-4">
+          <h2 className="text-3xl md:text-4xl font-serif font-bold text-white mb-4">
             Perjalanan Kedai Prasmar
           </h2>
         </motion.div>
@@ -411,10 +411,10 @@ export default function Home() {
             viewport={{ once: true }}
             transition={{ duration: 0.8 }}
           >
-            <p className="text-stone-700 leading-relaxed text-lg mb-6">
+            <p className="text-slate-200 leading-relaxed text-lg mb-6">
               Kedai Prasmar lahir dari passion untuk menghadirkan cita rasa autentik Nusantara yang telah dilupakan. Dimulai dari dapur kecil dengan resep turun-temurun, kami berkembang menjadi restoran yang dipercaya ribuan pelanggan setia.
             </p>
-            <p className="text-stone-700 leading-relaxed text-lg">
+            <p className="text-slate-200 leading-relaxed text-lg">
               Setiap hidangan dimasak dengan cinta dan menggunakan bahan-bahan terbaik pilihan. Kami percaya bahwa makanan bukan hanya untuk mengenyangkan perut, tetapi juga untuk menyentuh hati dan jiwa setiap pengunjung.
             </p>
           </motion.div>
@@ -450,10 +450,10 @@ export default function Home() {
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
                   transition={{ delay: idx * 0.1, duration: 0.6 }}
-                  className="bg-white/90 backdrop-blur-sm rounded-2xl p-4 text-center shadow-lg border border-stone-200/50"
+                  className="bg-[#1f2937] rounded-2xl p-4 text-center shadow-lg border border-white/10"
                 >
                   <p className="text-xl font-bold text-emerald-600">{stat.number}</p>
-                  <p className="text-sm text-stone-600 mt-1">{stat.label}</p>
+                  <p className="text-sm text-slate-300 mt-1">{stat.label}</p>
                 </motion.div>
               ))}
             </div>
@@ -472,10 +472,10 @@ export default function Home() {
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
         >
-          <h2 className="text-4xl md:text-5xl font-serif font-bold text-stone-800 mb-6">
+          <h2 className="text-4xl md:text-5xl font-serif font-bold text-white mb-6">
             Siap untuk Pengalaman Kuliner Terbaik?
           </h2>
-          <p className="text-xl text-stone-600 mb-8">
+          <p className="text-xl text-slate-300 mb-8">
             Jangan lewatkan kesempatan untuk menikmati hidangan istimewa Kedai Prasmar. Kunjungi kami sekarang!
           </p>
           

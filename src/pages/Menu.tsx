@@ -20,6 +20,29 @@ export default function Menu() {
   const [localSearch, setLocalSearch] = useState(searchQuery);
 
   // Recompute filtered menu with local search, category tab, favorites and sorting
+  const getFallbackImage = (category: string) => {
+    const categoryColor = category === 'Minuman' ? '#0f766e' : category === 'Cemilan' ? '#f59e0b' : '#10b981';
+    const label = category === 'Minuman' ? 'Minuman' : category === 'Cemilan' ? 'Cemilan' : 'Makanan';
+    const svg = `
+      <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 800 600'>
+        <defs>
+          <linearGradient id='g' x1='0' x2='1' y1='0' y2='1'>
+            <stop offset='0%' stop-color='#ecfdf5'/>
+            <stop offset='100%' stop-color='#fef3c7'/>
+          </linearGradient>
+        </defs>
+        <rect width='800' height='600' fill='url(#g)'/>
+        <rect x='150' y='120' width='500' height='360' rx='32' fill='white' opacity='0.28'/>
+        <circle cx='260' cy='200' r='90' fill='${categoryColor}' opacity='0.20'/>
+        <circle cx='530' cy='250' r='120' fill='${categoryColor}' opacity='0.18'/>
+        <path d='M215 360 C280 285, 350 280, 395 360 C440 440, 515 440, 580 360' fill='none' stroke='${categoryColor}' stroke-width='22' stroke-linecap='round'/>
+        <path d='M190 390 L610 390' stroke='${categoryColor}' stroke-width='14' stroke-linecap='round' opacity='0.55'/>
+        <text x='400' y='490' text-anchor='middle' font-size='44' font-family='Arial, sans-serif' font-weight='700' fill='#14532d'>${label}</text>
+      </svg>
+    `;
+    return `data:image/svg+xml;charset=UTF-8,${encodeURIComponent(svg)}`;
+  };
+
   const filteredAndSorted = useMemo(() => {
     let filtered = menuData.slice();
 
@@ -163,16 +186,16 @@ export default function Menu() {
                 >
                   {/* Image */}
                   <div className="relative aspect-[4/3] overflow-hidden bg-gradient-to-br from-emerald-50 to-amber-50">
-                    <picture>
-                      <source srcSet={item.image.replace(/\.jpg$/i, '.webp')} type="image/webp" />
-                      <img
-                        src={item.image}
-                        alt={item.name}
-                        onError={(e) => { (e.currentTarget as HTMLImageElement).src = '/images/placeholder-food.jpg'; }}
-                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                        loading="lazy"
-                      />
-                    </picture>
+                    <img
+                      src={item.image || getFallbackImage(item.category)}
+                      alt={item.name}
+                      onError={(e) => {
+                        const target = e.currentTarget as HTMLImageElement;
+                        target.src = getFallbackImage(item.category);
+                      }}
+                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                      loading="lazy"
+                    />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/6 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
 
                     {/* Badge & Heart */}

@@ -9,9 +9,39 @@
   *, *::before, *::after { box-sizing: border-box; }
   html, body, #root { height: 100%; }
   body {
-    @apply bg-stone-50 text-stone-800 antialiased selection:bg-emerald-200 selection:text-emerald-900;
+    @apply bg-[#111827] text-stone-100 antialiased selection:bg-emerald-500 selection:text-white;
     overflow-x: hidden; /* extra safeguard for mobile horizontal overflow */
   }
+}
+
+/* Presentation theme: keep every route readable on desktop and mobile. */
+main,
+main > div {
+  background-color: #111827;
+}
+
+.bg-stone-50 {
+  background-color: #111827 !important;
+}
+
+.bg-white {
+  background-color: #1f2937 !important;
+}
+
+.text-stone-800,
+.text-stone-700,
+.text-stone-600 {
+  color: rgb(226 232 240) !important;
+}
+
+.text-stone-500,
+.text-stone-400 {
+  color: rgb(148 163 184) !important;
+}
+
+.border-stone-100,
+.border-stone-200 {
+  border-color: rgb(71 85 105 / 0.55) !important;
 }
 
 /* Custom Scrollbar for elegant feel */
