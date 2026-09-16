@@ -5,7 +5,7 @@ import { motion } from 'framer-motion';
 import { CreditCard, Wallet, Building2, QrCode, CheckCircle2 } from 'lucide-react';
 
 export default function Checkout() {
-  const { cartTotal, cart } = useAppContext();
+  const { cartTotal, cart, createOrder } = useAppContext();
   const navigate = useNavigate();
   const [paymentMethod, setPaymentMethod] = useState('');
   const [isProcessing, setIsProcessing] = useState(false);
@@ -22,11 +22,11 @@ export default function Checkout() {
     setTimeout(() => {
       setIsProcessing(false);
       setIsSuccess(true);
+      createOrder(paymentMethod);
       
       // Redirect after success
       setTimeout(() => {
-        // Here you would clear cart in a real app
-        navigate('/dashboard');
+        navigate('/order-tracking');
       }, 3000);
     }, 2000);
   };
@@ -54,7 +54,7 @@ export default function Checkout() {
         <p className="text-stone-600 mb-8 max-w-md">
           Terima kasih atas pesanan Anda. Pesanan sedang diproses dan akan segera disiapkan.
         </p>
-        <div className="animate-pulse text-sm text-stone-400">Mengalihkan ke dashboard...</div>
+        <div className="animate-pulse text-sm text-stone-400">Membuka pelacakan pesanan...</div>
       </motion.div>
     );
   }

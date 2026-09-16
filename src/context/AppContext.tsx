@@ -10,6 +10,16 @@ export type Product = {
 };
 
 type CartItem = Product & { quantity: number };
+export type OrderStatus = 'received' | 'confirmed' | 'preparing' | 'ready' | 'completed';
+export type Order = {
+  id: string;
+  items: CartItem[];
+  total: number;
+  paymentMethod: string;
+  status: OrderStatus;
+  createdAt: string;
+  updatedAt: string;
+};
 
 type SearchHistory = string;
 
@@ -18,7 +28,10 @@ interface AppContextType {
   addToCart: (product: Product) => void;
   removeFromCart: (productId: string) => void;
   updateQuantity: (productId: string, quantity: number) => void;
+  clearCart: () => void;
   cartTotal: number;
+  currentOrder: Order | null;
+  createOrder: (paymentMethod: string) => Order;
   favorites: Product[];
   toggleFavorite: (product: Product) => void;
   isFavorite: (productId: string) => boolean;
@@ -40,6 +53,10 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
   const [searchHistory, setSearchHistory] = useState<SearchHistory[]>([]);
   const [notifications, setNotifications] = useState<string[]>(['Selamat datang di Kedai Prasmar!', 'Menu baru telah ditambahkan.']);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [currentOrder, setCurrentOrder] = useState<Order | null>(() => {
+    const saved = localStorage.getItem('prasmar-current-order');
+    return saved ? JSON.parse(saved) as Order : null;
+  });
 
   const addToCart = (product: Product) => {
     setCart(prev => {
@@ -64,6 +81,40 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
   };
 
   const cartTotal = cart.reduce((total, item) => total + (item.price * item.quantity), 0);
+  const clearCart = () => setCart([]);
+
+  const createOrder = (paymentMethod: string) => {
+    const now = new Date().toISOString();
+    const order: Order = {
+      id: `KP-${Date.now().toString().slice(-6)}`,
+      items: cart,
+      total: cartTotal * 1.11,
+      paymentMethod,
+      status: 'received',
+      createdAt: now,
+      updatedAt: now,
+    };
+    setCurrentOrder(order);
+    localStorage.setItem('prasmar-current-order', JSON.stringify(order));
+    clearCart();
+    return order;
+  };
+
+  useEffect(() => {
+    if (!currentOrder || currentOrder.status === 'completed') return;
+    const stages: OrderStatus[] = ['received', 'confirmed', 'preparing', 'ready', 'completed'];
+    const timer = window.setInterval(() => {
+      setCurrentOrder((previous) => {
+        if (!previous) return previous;
+        const currentIndex = stages.indexOf(previous.status);
+        if (currentIndex >= stages.length - 1) return previous;
+        const updated = { ...previous, status: stages[currentIndex + 1], updatedAt: new Date().toISOString() };
+        localStorage.setItem('prasmar-current-order', JSON.stringify(updated));
+        return updated;
+      });
+    }, 15000);
+    return () => window.clearInterval(timer);
+  }, [currentOrder]);
 
   const toggleFavorite = (product: Product) => {
     setFavorites(prev => {
@@ -91,7 +142,8 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
 
   return (
     <AppContext.Provider value={{
-      cart, addToCart, removeFromCart, updateQuantity, cartTotal,
+      cart, addToCart, removeFromCart, updateQuantity, clearCart, cartTotal,
+      currentOrder, createOrder,
       favorites, toggleFavorite, isFavorite,
       searchHistory, addSearchHistory, clearSearchHistory,
       notifications, clearNotifications,

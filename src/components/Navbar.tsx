@@ -23,6 +23,7 @@ export default function Navbar() {
     { name: 'Lokasi', path: '/location', icon: <MapPin size={16} /> },
     { name: 'Asisten AI', path: '/chat-ai', icon: <MessageSquare size={16} /> },
     { name: 'Dashboard', path: '/dashboard', icon: <Clock size={16} /> },
+    { name: 'Pesanan', path: '/order-tracking', icon: <ShoppingBag size={16} /> },
   ];
 
   const handleSearch = (e: React.FormEvent) => {
@@ -61,9 +62,9 @@ export default function Navbar() {
       <nav className="bg-[#111827]/95 backdrop-blur-md sticky top-0 z-50 border-b border-white/10 shadow-sm hover:shadow-md transition-shadow overflow-hidden">
         <motion.div className="absolute inset-0 bg-gradient-to-r from-transparent via-emerald-500/5 to-transparent pointer-events-none" animate={{ opacity: [0.85, 1, 0.85] }} transition={{ duration: 10, repeat: Infinity }} />
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-          <div className="flex items-center h-16 md:h-20">
+          <div className="flex items-center h-16 md:h-20 min-w-0">
             {/* Logo */}
-            <Link to="/" className="flex items-center space-x-2 mr-6 md:mr-14 group">
+            <Link to="/" className="flex shrink-0 items-center space-x-2 mr-5 lg:mr-8 group whitespace-nowrap">
               <motion.div 
                 className="w-9 h-9 md:w-10 md:h-10 bg-gradient-to-br from-emerald-600 to-emerald-700 rounded-full flex items-center justify-center shadow-lg group-hover:shadow-emerald-600/50"
                 whileHover={{ scale: 1.1, rotate: 360 }}
@@ -81,14 +82,14 @@ export default function Navbar() {
             </Link>
 
             {/* Desktop Nav */}
-            <div className="hidden md:flex items-center gap-2">
+            <div className="hidden md:flex items-center gap-1 lg:gap-2 min-w-0">
               {navLinks.map((link) => {
                 const isActive = location.pathname === link.path;
                 return (
                   <Link
                     key={link.name}
                     to={link.path}
-                    className={`relative px-4 py-2 text-sm font-medium transition-colors rounded-full ${
+                    className={`relative whitespace-nowrap px-3 lg:px-3.5 py-2 text-xs lg:text-sm font-medium transition-colors rounded-full ${
                       isActive ? 'text-emerald-200' : 'text-white/70 hover:text-emerald-300'
                     }`}
                   >
@@ -106,12 +107,12 @@ export default function Navbar() {
             </div>
 
             {/* Icons */}
-            <div className="ml-auto flex items-center gap-3 md:gap-5">
+            <div className="ml-auto flex shrink-0 items-center gap-1.5 lg:gap-3">
               {/* Search */}
               <div className="relative" ref={searchRef}>
                 <motion.button 
                   onClick={() => setIsSearchOpen(!isSearchOpen)} 
-                  className="text-white/75 hover:text-emerald-300 transition-colors relative p-2 hover:bg-white/10 rounded-full"
+                  className="text-white/75 hover:text-emerald-300 transition-colors relative p-1.5 lg:p-2 hover:bg-white/10 rounded-full"
                   whileHover={{ scale: 1.1 }}
                   whileTap={{ scale: 0.95 }}
                 >
@@ -178,7 +179,7 @@ export default function Navbar() {
               <div className="relative">
                 <motion.button 
                   onClick={() => setShowNotifications(!showNotifications)} 
-                  className="text-stone-600 hover:text-emerald-600 transition-colors relative p-2 hover:bg-emerald-50 rounded-full"
+                  className="text-white/75 hover:text-emerald-300 transition-colors relative p-1.5 lg:p-2 hover:bg-white/10 rounded-full"
                   whileHover={{ scale: 1.1 }}
                   whileTap={{ scale: 0.95 }}
                   animate={notifications.length > 0 ? { y: [0, -3, 0] } : {}}

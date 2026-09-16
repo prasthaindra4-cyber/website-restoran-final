@@ -15,6 +15,7 @@ import Dashboard from './pages/Dashboard';
 import Cart from './pages/Cart';
 import Checkout from './pages/Checkout';
 import Favorites from './pages/Favorites';
+import OrderTracking from './pages/OrderTracking';
 
 function ScrollToTop() {
   const { pathname } = useLocation();
@@ -57,6 +58,7 @@ function AppContent() {
                 <Route path="/cart" element={<Cart />} />
                 <Route path="/checkout" element={<Checkout />} />
                 <Route path="/favorites" element={<Favorites />} />
+                <Route path="/order-tracking" element={<OrderTracking />} />
               </Routes>
             </Suspense>
           </main>
